@@ -1,7 +1,7 @@
 package main
 
-import "github.com/Elyasb14/ghat"
+import "ebianchi/ghat/src/server"
 
 func main() {
-  server.startServer()
+  server.StartTCPServer()
 }
