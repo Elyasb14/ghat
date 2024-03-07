@@ -3,22 +3,29 @@ package server
 import (
   "fmt"
   "net"
+  "log"
 )
+
+type Message struct {
+  Sender string
+  Data string
+}
 
 func StartTCPServer() {
   ln, err := net.Listen("tcp", ":9999")
+  log.Println("server init")
   if err != nil {
     fmt.Println(err)
     return
   }
   for {
     conn, err := ln.Accept()
-    fmt.Println("connection accepted")
     if err != nil {
       fmt.Println(err)
       continue
     }
-
+    log.Println("connection accepted from", conn.RemoteAddr())
+    
     go handleTCPConnection(conn)
 
   }
