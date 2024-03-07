@@ -12,6 +12,7 @@ func main() {
     fmt.Println(err)
     return
   }
+  defer conn.Close()
   _, err = conn.Write([]byte("hello server, from the client"))
   if err != nil {
     fmt.Println(err)

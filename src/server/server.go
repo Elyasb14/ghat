@@ -3,7 +3,6 @@ package server
 import (
   "fmt"
   "net"
-  "log"
 )
 
 func StartTCPServer() {
@@ -29,11 +28,11 @@ func handleTCPConnection(conn net.Conn) {
   defer conn.Close()
   
   for {
-    buf := make([]byte, 1024)
+    buf := make([]byte, 2048)
     n, err := conn.Read(buf)
     if err != nil {
-      log.Fatal(err)
-      return 
+      fmt.Println(err)
+      return
     }
     str := string(buf[:n])
     fmt.Println(str) 

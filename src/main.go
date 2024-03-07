@@ -2,8 +2,6 @@ package main
 
 import (
   "ebianchi/ghat/src/server"
-  "log"
-  "os"
 )
 
 type Message struct {
@@ -12,10 +10,5 @@ type Message struct {
 }
 
 func main() {
-  logFile, err := os.OpenFile("./ghat.log", os.O_WRONLY, 0644)
-  if err != nil {
-    log.Fatal("couldn't open log file")
-  }
-  defer logFile.Close()
 	server.StartTCPServer()
 }
