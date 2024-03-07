@@ -2,6 +2,7 @@ package main
 
 import (
   "ebianchi/ghat/src/server"
+  "ebianchi/ghat/src/client"
   "log"
   "os"
 )
@@ -18,4 +19,5 @@ func main() {
   }
   defer logFile.Close()
 	server.StartTCPServer()
+  go client.ClientHandler()
 }

@@ -27,5 +27,15 @@ func StartTCPServer() {
 
 func handleTCPConnection(conn net.Conn) {
   defer conn.Close()
-
+  
+  for {
+    buf := make([]byte, 1024)
+    n, err := conn.Read(buf)
+    if err != nil {
+      log.Fatal(err)
+      return 
+    }
+    str := string(buf[:n])
+    fmt.Println(str) 
+  }
 }
