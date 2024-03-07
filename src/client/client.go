@@ -1,4 +1,4 @@
-package client
+package main 
 
 import (
   "net"
@@ -6,9 +6,8 @@ import (
 )
 
 
-func ClientHandler() {
+func main() {
   conn, err := net.Dial("tcp", "localhost:9999")
-  defer conn.Close()
   if err != nil {
     fmt.Println(err)
     return
