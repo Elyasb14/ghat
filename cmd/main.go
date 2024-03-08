@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ebianchi/ghat/src/server"
+	"ebianchi/ghat/pkg"
 )
 
 func main() {
