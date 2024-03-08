@@ -1,1 +1,17 @@
-a cli chat app written in go
+GHAT
+
+this is a multi user chat app, cli based, written in go. 
+
+USAGE
+
+to start a server, run:
+
+```
+go run cmd/main.go
+```
+
+to run a client, run:
+
+```
+go run cmd/client.go
+```
