@@ -4,14 +4,27 @@ import (
   "fmt"
   "net"
   "log"
+  "os"
 )
 
-type Message struct {
-  Sender string
-  Data string
+var logFile *os.File
+var err error
+
+// this gets called implicitly when the server package gets called
+func init() {
+  logPath := "ghat.log"
+  
+  logFile, err = os.OpenFile(logPath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+  if err != nil {
+    fmt.Println("can't open log file:", err)
+    return
+  }
+  log.SetOutput(logFile)
 }
 
 func StartTCPServer() {
+  
+
   ln, err := net.Listen("tcp", ":9999")
   log.Println("server init")
   if err != nil {
