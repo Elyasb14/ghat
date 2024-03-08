@@ -14,7 +14,16 @@ type Packet struct {
 	data       string
 }
 
+
+
 func main() {
+  logPath := "ghat.log"
+  logFile, err := os.OpenFile(logPath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+  if err != nil {
+    log.Fatal("can't open log file:", err)
+    return
+  }
+  log.SetOutput(logFile)
 	conn, err := net.Dial("tcp", "localhost:9999")
 	if err != nil {
 		log.Fatal(err)
