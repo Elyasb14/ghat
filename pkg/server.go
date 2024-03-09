@@ -50,7 +50,8 @@ func handleTCPConnection(conn net.Conn) {
 			log.Println(err)
 			return
 		}
-		str := string(buf[:n])
-		fmt.Println(str)
+		//str := string(buf[:n])
+		//fmt.Println(str)
+    conn.Write(buf[:n])
 	}
 }

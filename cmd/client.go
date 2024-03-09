@@ -44,5 +44,6 @@ func main() {
 			log.Fatal(err)
 			return
 		}
+//    resp, err := conn.Read()
 	}
 }
