@@ -50,8 +50,12 @@ func handleTCPConnection(conn net.Conn) {
 			log.Println(err)
 			return
 		}
-		//str := string(buf[:n])
-		//fmt.Println(str)
-    conn.Write(buf[:n])
+    data := string(buf[:n])
+    fmt.Printf("Received from client: %s\n", data)
+    conn.Write([]byte(data))
+    if err != nil {
+      log.Println(err)
+      return
+    }
 	}
 }

@@ -44,6 +44,13 @@ func main() {
 			log.Fatal(err)
 			return
 		}
-//    resp, err := conn.Read()
+    
+    buf := make([]byte, 2048)
+    n, err := conn.Read(buf)
+    if err != nil {
+      log.Fatal(err)
+      return
+    }
+    fmt.Printf("Server response: %s\n", string(buf[:n]))
 	}
 }

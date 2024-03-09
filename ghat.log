@@ -25,3 +25,10 @@
 2024/03/09 12:31:41 connection accepted from [::1]:58480
 2024/03/09 12:35:54 server init
 2024/03/09 12:35:57 connection accepted from [::1]:58512
+2024/03/09 15:07:52 server init
+2024/03/09 15:07:57 connection accepted from [::1]:58967
+2024/03/09 15:08:04 read tcp [::1]:9999->[::1]:58967: read: connection reset by peer
+2024/03/09 15:09:13 dial tcp [::1]:9999: connect: connection refused
+2024/03/09 15:15:01 server init
+2024/03/09 15:15:07 connection accepted from [::1]:59047
+2024/03/09 15:15:22 EOF
