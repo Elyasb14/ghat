@@ -1,8 +1,8 @@
 package server
 
 import (
-	"fmt"
 	"log"
+  "fmt"
 	"net"
 	"os"
 )
@@ -42,7 +42,7 @@ func StartTCPServer() {
 
 func handleTCPConnection(conn net.Conn) {
 	defer conn.Close()
-
+  fmt.Println("you are connected to the server")
 	for {
 		buf := make([]byte, 2048)
 		n, err := conn.Read(buf)

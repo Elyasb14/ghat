@@ -2,3 +2,17 @@
 2024/03/08 12:17:09 server init
 2024/03/08 12:17:09 listen tcp :9999: bind: address already in use
 2024/03/08 12:17:15 connection accepted from [::1]:60337
+2024/03/08 18:42:30 server init
+2024/03/08 18:42:52 server init
+2024/03/08 18:42:55 server init
+2024/03/08 18:43:35 dial tcp [::1]:9999: connect: connection refused
+2024/03/08 18:43:41 server init
+2024/03/08 18:44:40 server init
+2024/03/08 18:45:51 server init
+2024/03/08 18:46:01 connection accepted from [::1]:56621
+2024/03/08 18:46:07 EOF
+2024/03/08 18:46:41 connection accepted from [::1]:56640
+2024/03/08 18:46:45 server init
+2024/03/08 18:46:48 connection accepted from [::1]:56646
+2024/03/08 18:48:07 server init
+2024/03/08 18:48:10 connection accepted from [::1]:56658
