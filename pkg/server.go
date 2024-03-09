@@ -33,7 +33,7 @@ func StartTCPServer() {
 		 log.Println(err)
 			continue
 		}
-		log.Println("connection accepted from", conn.RemoteAddr())
+		log.Println("connection accepted from:", conn.RemoteAddr())
 
 		go handleTCPConnection(conn)
 
@@ -50,12 +50,7 @@ func handleTCPConnection(conn net.Conn) {
 			log.Println(err)
 			return
 		}
-    data := string(buf[:n])
-    fmt.Printf("Received from client: %s\n", data)
-    conn.Write([]byte(data))
-    if err != nil {
-      log.Println(err)
-      return
-    }
+    fmt.Printf("Received from client: %s\n", buf[:n])
+    conn.Write(buf[:n])
 	}
 }
