@@ -51,6 +51,6 @@ func main() {
       log.Fatal(err)
       return
     }
-    fmt.Printf("Server response: %s\n", string(buf[:n]))
+    fmt.Println(string(buf[:n]))
 	}
 }

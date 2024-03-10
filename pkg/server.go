@@ -19,7 +19,7 @@ func init() {
 }
 
 type Packet struct {
-  sender string
+  sender []byte
   message []byte
 }
 
@@ -50,8 +50,8 @@ func handleTCPConnection(conn net.Conn) {
 		buf := make([]byte, 2048)
 		n, err := conn.Read(buf)
     packet := Packet{
-      sender:  conn.RemoteAddr().String(),
-       message: buf[:n],
+      sender:  []byte("from " + conn.RemoteAddr().String() + ": "),
+      message: buf[:n],
     }
 		if err != nil {
 			log.Println(err)
@@ -59,6 +59,7 @@ func handleTCPConnection(conn net.Conn) {
 		}
 
     log.Printf("message: %s from client @ ip addr: %s", buf[:n], conn.RemoteAddr())
-    conn.Write(packet) 
+    conn.Write(packet.sender) 
+    conn.Write(packet.message)
 	}
 }
