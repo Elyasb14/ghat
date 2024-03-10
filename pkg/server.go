@@ -2,7 +2,6 @@ package server
 
 import (
 	"log"
-  "fmt"
 	"net"
 	"os"
 )
@@ -17,6 +16,11 @@ func init() {
 		return
 	}
 	log.SetOutput(logFile)
+}
+
+type Packet struct {
+  sender string
+  message []byte
 }
 
 func StartTCPServer() {
@@ -42,15 +46,19 @@ func StartTCPServer() {
 
 func handleTCPConnection(conn net.Conn) {
 	defer conn.Close()
-  fmt.Println("you are connected to the server")
 	for {
 		buf := make([]byte, 2048)
 		n, err := conn.Read(buf)
+    packet := Packet{
+      sender:  conn.RemoteAddr().String(),
+       message: buf[:n],
+    }
 		if err != nil {
 			log.Println(err)
 			return
 		}
-    fmt.Printf("Received from client: %s\n", buf[:n])
-    conn.Write(buf[:n])
+
+    log.Printf("message: %s from client @ ip addr: %s", buf[:n], conn.RemoteAddr())
+    conn.Write(packet) 
 	}
 }
