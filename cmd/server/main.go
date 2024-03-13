@@ -1,9 +1,15 @@
 package main
 
 import (
-	"ebianchi/ghat/pkg"
+	//"ebianchi/ghat/pkg"
+  db "ebianchi/ghat/pkg/database"
+  "fmt"
 )
 
 func main() {
-	server.StartTCPServer()
+	//server.StartTCPServer()
+  err := db.InitDB("file:///tmp/ghat.db")
+  if err != nil {
+    fmt.Println(err)
+  }
 }
