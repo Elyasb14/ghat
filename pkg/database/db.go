@@ -22,6 +22,7 @@ func InitDB(url string) error {
 		return err
 	}
 
+  log.Println("Database connected")
 	db.Exec(`CREATE TABLE IF NOT EXISTS chats (
            id SERIAL PRIMARY KEY,
            time TIMESTAMP NOT NULL,
@@ -49,6 +50,7 @@ func ShowTable() {
 	rows, err := Db.Query("SELECT time, message, ip_address FROM chats")
 	if err != nil {
 			log.Fatal(err)
+      return
 	}
 	defer rows.Close()
 
