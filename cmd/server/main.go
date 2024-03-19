@@ -14,12 +14,5 @@ func main() {
     return
 	}
 	// fmt.Println(db.Db)
-	err = db.SaveChat()
-  fmt.Println("saved chat")
-	if err != nil {
-		fmt.Println(err)
-    return
-	}
-  db.ShowTable()
-  fmt.Println("table showed")
+	db.SaveChat()
 }

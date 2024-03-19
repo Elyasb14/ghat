@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"time"
 	"log"
-	"fmt"
 
 	_ "github.com/tursodatabase/go-libsql"
 	//server "ebianchi/ghat/pkg/server"
@@ -22,7 +21,8 @@ func InitDB(url string) error {
 		return err
 	}
 
-  log.Println("Database connected")
+  defer db.Close()
+
 	db.Exec(`CREATE TABLE IF NOT EXISTS chats (
            id SERIAL PRIMARY KEY,
            time TIMESTAMP NOT NULL,
@@ -46,20 +46,4 @@ func SaveChat() error {
 	return nil
 }
 
-func ShowTable() {
-	rows, err := Db.Query("SELECT time, message, ip_address FROM chats")
-	if err != nil {
-			log.Fatal(err)
-      return
-	}
-	defer rows.Close()
 
-	for rows.Next() {
-			var time time.Time
-			var message, ipAddress string
-			if err := rows.Scan(&time, &message, &ipAddress); err != nil {
-					log.Fatal(err)
-			}
-			fmt.Printf("Time: %v, Message: %s, IP Address: %s\n", time, message, ipAddress)
-	}
-}
