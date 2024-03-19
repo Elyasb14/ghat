@@ -1,0 +1,22 @@
+2024/03/11 10:44:01 server init
+2024/03/11 10:44:17 connection accepted from: [::1]:55703
+2024/03/11 10:44:29 read tcp [::1]:55703->[::1]:9999: read: connection reset by peer
+2024/03/11 10:45:00 server init
+2024/03/11 10:45:04 connection accepted from: [::1]:55708
+2024/03/11 10:46:10 dial tcp [::1]:9999: connect: connection refused
+2024/03/11 10:46:17 server init
+2024/03/11 10:46:21 connection accepted from: [::1]:55719
+2024/03/11 10:46:27 read tcp [::1]:55719->[::1]:9999: read: connection reset by peer
+2024/03/11 10:47:20 server init
+2024/03/11 10:47:22 connection accepted from: [::1]:55724
+2024/03/11 10:47:23 message: fjds from client @ ip addr: [::1]:55724
+2024/03/11 10:47:25 message: jfgkdsla from client @ ip addr: [::1]:55724
+2024/03/11 10:47:27 message: hgkfl;asd; from client @ ip addr: [::1]:55724
+2024/03/11 10:47:28 message: hgjfdkas; from client @ ip addr: [::1]:55724
+2024/03/11 10:47:29 EOF
+2024/03/12 13:43:44 server init
+2024/03/12 13:43:57 connection accepted from: [::1]:50750
+2024/03/12 13:43:58 message: fjdsk from client @ ip addr: [::1]:50750
+2024/03/12 13:44:01 message: fjdks from client @ ip addr: [::1]:50750
+2024/03/19 10:16:35 dial tcp [::1]:9999: connect: connection refused
+2024/03/19 10:16:48 dial tcp [::1]:9999: connect: connection refused
