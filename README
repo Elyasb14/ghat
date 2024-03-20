@@ -7,11 +7,11 @@ USAGE
 to start a server, run:
 
 ```
-go run cmd/main.go
+go run cmd/server/main.go
 ```
 
 to run a client, run:
 
 ```
-go run cmd/client.go
+go run cmd/client/main.go
 ```
