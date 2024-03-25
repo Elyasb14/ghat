@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"time"
+
 	_ "github.com/tursodatabase/go-libsql"
 )
 
@@ -16,20 +16,15 @@ func run() (err error) {
 	defer db.Close()
 
 	db.Exec(`CREATE TABLE IF NOT EXISTS chats (
-		id SERIAL PRIMARY KEY,
 		time TIMESTAMP NOT NULL,
 		message TEXT NOT NULL,
 		ip_address TEXT NOT NULL
 	)`)
 
-	// for i := 0; i < 10; i++ {
-	// 	_, err = db.Exec(fmt.Sprintf("INSERT INTO chats (id, name) VALUES (%d, 'test-%d')", i, i))
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// }
-
-	_, err = db.Exec(fmt.Sprintf("INSERT INTO chats (time, message, ip_address) VALUES (%s, %s, %s)", time.Now(), "hello, world",  "10.0.0.2"))
+	_, err = db.Exec("INSERT INTO chats (time, message, ip_address) VALUES (?, ?, ?)", 103201, "hello second", "10.0.1.1") 
+	if err != nil {
+		return err
+	}
 
 	rows, err := db.Query("SELECT * FROM chats")
 	if err != nil {
