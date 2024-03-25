@@ -13,7 +13,4 @@ func main() {
 		fmt.Println(err)
     return
 	}
-	// fmt.Println(db.Db)
-	db.SaveChat("hello", "10.0.2.1")
-	db.ShowChats()
 }
