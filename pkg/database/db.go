@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 	"time"
-	"log"
+	// "log"
 
 	_ "github.com/tursodatabase/go-libsql"
 	//server "ebianchi/ghat/pkg/server"

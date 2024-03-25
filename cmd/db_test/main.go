@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-
+	"time"
 	_ "github.com/tursodatabase/go-libsql"
 )
 
@@ -12,48 +12,40 @@ func run() (err error) {
 	if err != nil {
 		return err
 	}
-	defer func() {
-		if closeError := db.Close(); closeError != nil {
-			fmt.Println("Error closing database", closeError)
-			if err == nil {
-				err = closeError
-			}
-		}
-	}()
 
-	// _, err = db.Exec("CREATE TABLE test (id INTEGER PRIMARY KEY, name TEXT)")
-	// if err != nil {
-	// 	return err
-	// }
+	defer db.Close()
+
+	db.Exec(`CREATE TABLE IF NOT EXISTS chats (
+		id SERIAL PRIMARY KEY,
+		time TIMESTAMP NOT NULL,
+		message TEXT NOT NULL,
+		ip_address TEXT NOT NULL
+	)`)
 
 	// for i := 0; i < 10; i++ {
-	// 	_, err = db.Exec(fmt.Sprintf("INSERT INTO test (id, name) VALUES (%d, 'test-%d')", i, i))
+	// 	_, err = db.Exec(fmt.Sprintf("INSERT INTO chats (id, name) VALUES (%d, 'test-%d')", i, i))
 	// 	if err != nil {
 	// 		return err
 	// 	}
 	// }
 
-	rows, err := db.Query("SELECT * FROM test")
+	_, err = db.Exec(fmt.Sprintf("INSERT INTO chats (time, message, ip_address) VALUES (%s, %s, %s)", time.Now(), "hello, world",  "10.0.0.2"))
+
+	rows, err := db.Query("SELECT * FROM chats")
 	if err != nil {
 		return err
 	}
-	defer func() {
-		if closeError := rows.Close(); closeError != nil {
-			fmt.Println("Error closing rows", closeError)
-			if err == nil {
-				err = closeError
-			}
-		}
-	}()
+	defer rows.Close()
 
 	for rows.Next() {
-		var id int
-		var name string
-		err = rows.Scan(&id, &name)
+		var time string
+		var message string
+		var ip_addr string
+		err = rows.Scan(&time, &message, &ip_addr)
 		if err != nil {
 			return err
 		}
-		fmt.Printf("ID: %d, Name: %s\n", id, name)
+		fmt.Printf("time %s, message: %s, ip_addr: %s\n", time, message, ip_addr)
 	}
 
 	if rows.Err() != nil {
