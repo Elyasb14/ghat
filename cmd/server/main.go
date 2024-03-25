@@ -14,5 +14,6 @@ func main() {
     return
 	}
 	// fmt.Println(db.Db)
-	db.SaveChat()
+	db.SaveChat("hello", "10.0.2.1")
+	db.ShowChats()
 }
