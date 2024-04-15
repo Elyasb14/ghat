@@ -5,14 +5,19 @@ import (
   "net"
 )
 
+type TCPServer struct {
+  listener net.Listener
+}
 
-func NewTCPServer(port uint16) (net.Listener, error) {
+func NewTCPServer(port uint16) (*TCPServer, error) {
   listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
   if err != nil {
     return nil, err
   } 
   
-  return listener, nil
+  return &TCPServer{
+    listener: listener
+  }, nil
 }
 
 
