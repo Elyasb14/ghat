@@ -1,19 +1,21 @@
 package main
 
 import (
-  "github.com/Elyasb14/ghat/pkg/server"
-  "fmt"
+	"flag"
+	"fmt"
+
+	"github.com/Elyasb14/ghat/pkg/server"
 )
 
-
-
 func main() {
-  server, err := server.NewTCPServer(8080)
-  if err != nil {
-    fmt.Println(err)
-  } 
-  
-  for {
-    server.listener 
-  }
+	var port uint
+	flag.UintVar(&port, "port", 8080, "port to listen on")
+	flag.Parse()
+	fmt.Printf("server listening on port %d\n", port)
+
+	server, err := server.NewTCPServer(port)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(server)
 }
