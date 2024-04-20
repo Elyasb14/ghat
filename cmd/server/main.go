@@ -17,6 +17,15 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-
-	fmt.Println(server)
+	for {
+		conn, err := server.Listener.Accept()
+		if err != nil {
+			fmt.Println(err)
+		}
+		msg := "hello"
+		server.Clients = append(server.Clients, conn)
+		for _, client := range server.Clients {
+			client.Write([]byte(msg))
+		}
+	}
 }
