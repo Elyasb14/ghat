@@ -5,11 +5,8 @@ import (
 	"net"
 )
 
-type Connection net.Conn
-
 type TCPServer struct {
 	Listener net.Listener
-	Clients  []Connection
 }
 
 func NewTCPServer(port uint) (*TCPServer, error) {
@@ -20,8 +17,11 @@ func NewTCPServer(port uint) (*TCPServer, error) {
 
 	return &TCPServer{
 		Listener: listener,
-		Clients:  make([]Connection, 0, 100),
 	}, nil
 }
 
-func HandleClient(conn net.Conn, server *TCPServer) {}
+func HandleClient(conn net.Conn) {
+	buf := make([]byte, 64)
+	conn.Read(buf)
+
+}

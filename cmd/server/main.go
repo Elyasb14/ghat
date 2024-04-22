@@ -13,19 +13,18 @@ func main() {
 	flag.Parse()
 	fmt.Printf("server listening on port %d\n", port)
 
-	server, err := server.NewTCPServer(port)
+	tcpServer, err := server.NewTCPServer(port)
 	if err != nil {
 		fmt.Println(err)
 	}
 	for {
-		conn, err := server.Listener.Accept()
+		conn, err := tcpServer.Listener.Accept()
 		if err != nil {
 			fmt.Println(err)
+			continue
 		}
-		msg := "hello"
-		server.Clients = append(server.Clients, conn)
-		for _, client := range server.Clients {
-			client.Write([]byte(msg))
-		}
+
+		fmt.Printf("client connected @ ip address %s", conn.RemoteAddr().String())
+		go server.HandleClient(conn)
 	}
 }
