@@ -22,6 +22,13 @@ func NewTCPServer(port uint) (*TCPServer, error) {
 
 func HandleClient(conn net.Conn) {
 	buf := make([]byte, 64)
-	conn.Read(buf)
-
+  for {
+	  n, err := conn.Read(buf)
+    if err != nil {
+      fmt.Println(err)
+    }
+   
+    text := string(buf[0:n])
+    conn.Write([]byte(text))
+  }
 }

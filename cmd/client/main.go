@@ -12,5 +12,5 @@ func main() {
 	}
 	defer conn.Close()
 
-	fmt.Println(conn)
+  for 
 }
