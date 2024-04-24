@@ -46,7 +46,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 				continue
 			}
 
-			client.Write([]byte(message))
+			_, err := client.Write([]byte(message))
 			if err != nil {
 				log.Println(err)
 				continue
