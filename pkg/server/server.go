@@ -6,8 +6,11 @@ import (
 	"net"
 )
 
+type Connection net.Conn
+
 type TCPServer struct {
 	Listener net.Listener
+	Connections []Connection
 }
 
 func NewTCPServer(port uint) (*TCPServer, error) {
@@ -21,7 +24,7 @@ func NewTCPServer(port uint) (*TCPServer, error) {
 	}, nil
 }
 
-func HandleClient(conn net.Conn) {
+func HandleClient(conn net.Conn, server *TCPServer) {
 	buf := make([]byte, 64)
   for {
 	  n, err := conn.Read(buf)
@@ -32,6 +35,12 @@ func HandleClient(conn net.Conn) {
     }
    
     text := string(buf[0:n])
-    conn.Write([]byte(text))
+		for _, client := range server.Connections {
+			if client == conn {
+				continue
+			} else {
+				client.Write([]byte(text))
+			}
+		}
   }
 }

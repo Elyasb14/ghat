@@ -19,14 +19,14 @@ func main() {
 	}
 	for {
 		conn, err := tcpServer.Listener.Accept()
+		tcpServer.Connections = append(tcpServer.Connections, conn)
 		
 		if err != nil {
 			log.Println(err)
 			continue
 		}
 		
-		
 		log.Printf("client connected @ ip address %s", conn.RemoteAddr().String())
-		go server.HandleClient(conn)
+		go server.HandleClient(conn, tcpServer)
 	}
 }
