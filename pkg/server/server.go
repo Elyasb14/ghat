@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+  "sync"
 )
 
 type Connection net.Conn
@@ -11,6 +12,7 @@ type Connection net.Conn
 type TCPServer struct {
 	Listener    net.Listener
 	Connections []Connection
+  Mut sync.Mutex
 }
 
 func NewTCPServer(port uint) (*TCPServer, error) {
@@ -37,6 +39,8 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 		text := string(buf[0:n])
 		message := fmt.Sprintf("%s: %s", conn.LocalAddr().String(), text)
 		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
+
+    server.Mut.Lock()
 		for _, client := range server.Connections {
 			if client == conn {
 				continue
@@ -52,5 +56,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 				continue
 			}
 		}
+
+    server.Mut.Unlock()
 	}
 }
