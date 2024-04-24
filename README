@@ -7,11 +7,11 @@ USAGE
 to start a server, run:
 
 ```
-go run cmd/server/main.go
+go run cmd/server/main.go --port 8080
 ```
 
 to run a client, run:
 
 ```
-go run cmd/client/main.go
+nc localhost 8080
 ```
