@@ -21,7 +21,6 @@ func NewTCPServer(port uint) (*TCPServer, error) {
 
 	return &TCPServer{
 		Listener: listener,
-		Connections: make([]Connection, 20),
 	}, nil
 }
 
@@ -47,7 +46,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 				continue
 			}
 
-			_, err := client.Write([]byte(message))
+			client.Write([]byte(message))
 			if err != nil {
 				log.Println(err)
 				continue
