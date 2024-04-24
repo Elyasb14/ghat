@@ -12,5 +12,4 @@ func main() {
 	}
 	defer conn.Close()
 
-  for 
 }

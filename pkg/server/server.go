@@ -1,6 +1,7 @@
 package server
 
 import (
+	"log"
 	"fmt"
 	"net"
 )
@@ -25,7 +26,9 @@ func HandleClient(conn net.Conn) {
   for {
 	  n, err := conn.Read(buf)
     if err != nil {
-      fmt.Println(err)
+			conn.Close()
+			log.Printf("client @ ip addr %s disconnected", conn.RemoteAddr().String())
+			return
     }
    
     text := string(buf[0:n])
