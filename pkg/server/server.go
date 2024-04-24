@@ -1,15 +1,15 @@
 package server
 
 import (
-	"log"
 	"fmt"
+	"log"
 	"net"
 )
 
 type Connection net.Conn
 
 type TCPServer struct {
-	Listener net.Listener
+	Listener    net.Listener
 	Connections []Connection
 }
 
@@ -26,22 +26,27 @@ func NewTCPServer(port uint) (*TCPServer, error) {
 
 func HandleClient(conn net.Conn, server *TCPServer) {
 	buf := make([]byte, 64)
-  for {
-	  n, err := conn.Read(buf)
-    if err != nil {
+	for {
+		n, err := conn.Read(buf)
+		if err != nil {
 			conn.Close()
 			log.Printf("client @ ip addr %s disconnected", conn.RemoteAddr().String())
 			return
-    }
-   
-    text := string(buf[0:n])
+		}
+
+		text := string(buf[0:n])
+		message := fmt.Sprintf("%s: %s", conn.RemoteAddr().String(), text)
 		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
 		for _, client := range server.Connections {
 			if client == conn {
 				continue
-			} else {
-				client.Write([]byte(text))
 			}
+
+			if text == "\n" || text == " " {
+				continue
+			}
+
+			client.Write([]byte(message))
 		}
-  }
+	}
 }
