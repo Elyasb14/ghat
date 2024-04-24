@@ -35,6 +35,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
     }
    
     text := string(buf[0:n])
+		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
 		for _, client := range server.Connections {
 			if client == conn {
 				continue
