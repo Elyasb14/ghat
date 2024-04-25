@@ -1,10 +1,9 @@
 #!/bin/bash
 
 if [ ! -d "./bin" ]; then
-  echo "bin dir does not exist, making it now"
   mkdir bin
 else
-  echo "bin dir already exists" 
+  :
 fi
 
 build_server() {
@@ -18,4 +17,5 @@ build_client() {
 if [ "$1" == "server" ]; then build_server
 elif [ "$1" == "client" ]; then build_client 
 elif [ "$1" == "all" ]; then build_server; build_client
+else echo "usage: $0 <client, build, all>"
 fi

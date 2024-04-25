@@ -1,86 +1,71 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
-	tea "github.com/charmbracelet/bubbletea"
+    "bufio"
+    "flag"
+    "fmt"
+    "net"
+    "os"
 )
 
-type model struct {
-	cursor   int
-	choices  []string
-	selected map[int]struct{}
-}
-
-func initialModel() model {
-	return model{
-		choices: []string{"Buy carrots", "Buy celery", "Buy kohlrabi"},
-
-		// A map which indicates which choices are selected. We're using
-		// the map like a mathematical set. The keys refer to the indexes
-		// of the `choices` slice, above.
-		selected: make(map[int]struct{}),
-	}
-}
-
-func (m model) Init() tea.Cmd {
-	return tea.SetWindowTitle("Grocery List")
-}
-
-func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg := msg.(type) {
-	case tea.KeyMsg:
-		switch msg.String() {
-		case "ctrl+c", "q":
-			return m, tea.Quit
-		case "up", "k":
-			if m.cursor > 0 {
-				m.cursor--
-			}
-		case "down", "j":
-			if m.cursor < len(m.choices)-1 {
-				m.cursor++
-			}
-		case "enter", " ":
-			_, ok := m.selected[m.cursor]
-			if ok {
-				delete(m.selected, m.cursor)
-			} else {
-				m.selected[m.cursor] = struct{}{}
-			}
-		}
-	}
-
-	return m, nil
-}
-
-func (m model) View() string {
-	s := "What should we buy at the market?\n\n"
-
-	for i, choice := range m.choices {
-		cursor := " "
-		if m.cursor == i {
-			cursor = ">"
-		}
-
-		checked := " "
-		if _, ok := m.selected[i]; ok {
-			checked = "x"
-		}
-
-		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
-	}
-
-	s += "\nPress q to quit.\n"
-
-	return s
-}
-
 func main() {
-	p := tea.NewProgram(initialModel())
-	if _, err := p.Run(); err != nil {
-		fmt.Printf("Alas, there's been an error: %v", err)
-		os.Exit(1)
-	}
+    var addr string
+    flag.StringVar(&addr, "addr", "localhost:8080", "addr to connect to")
+    flag.Parse()
+
+    conn, err := net.Dial("tcp", addr)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+    defer conn.Close()
+
+    // Create a new reader for reading from the standard input
+    reader := bufio.NewReader(os.Stdin)
+
+    // Create a new channel for receiving messages from the server
+    messages := make(chan string)
+
+    // Start a new goroutine to read messages from the server
+    go func() {
+        buf := make([]byte, 1024)
+        for {
+            n, err := conn.Read(buf)
+            if err != nil {
+                fmt.Println("Error reading from server:", err)
+                return
+            }
+            messages <- string(buf[:n])
+        }
+    }()
+
+    // Start a new goroutine to read user input
+    go func() {
+        for {
+            fmt.Print("> ")
+            input, err := reader.ReadString('\n')
+            if err != nil {
+                fmt.Println("Error reading input:", err)
+                continue
+            }
+
+            // Remove the newline character from the input
+            input = input[:len(input)-1]
+
+            // Send the input to the server
+            _, err = conn.Write([]byte(input))
+            if err != nil {
+                fmt.Println("Error sending message:", err)
+                continue
+            }
+        }
+    }()
+
+    // Continuously check for messages from the server
+    for {
+        select {
+        case msg := <-messages:
+            fmt.Println(msg)
+        }
+    }
 }
