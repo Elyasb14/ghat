@@ -22,9 +22,12 @@ func ReadFromServer(conn net.Conn, messages chan string) {
 
 func ReadFromUser(conn net.Conn, reader *bufio.Reader, messages chan string) {
 	// read from user input
-	input, err := reader.ReadString('\n') // newline is delimeter to read until
-	if err != nil {
-		fmt.Println(err)
+	for {
+		input, err := reader.ReadString('\n') // newline is delimeter to read until
+		if err != nil {
+			fmt.Println(err)
+		}
+		conn.Write([]byte(input))
 	}
-	conn.Write([]byte(input))
+
 }
