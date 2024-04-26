@@ -13,5 +13,5 @@ go run cmd/server/main.go --port 8080
 to run a client, run:
 
 ```
-nc localhost 8080
+go run cmd/client/main.go --addr <remote addr>
 ```
