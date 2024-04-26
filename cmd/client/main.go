@@ -21,16 +21,12 @@ func main() {
     }
     defer conn.Close()
 
-    // Create a new reader for reading from the standard input
     reader := bufio.NewReader(os.Stdin)
     messages := make(chan string)
 
     go client.ReadFromUser(conn, reader, messages)
-    
-    // Create a new channel for receiving messages from the server
     go client.ReadFromServer(conn, messages)
 
-    // Continuously check for messages from the server
     for {
         select {
         case msg := <- messages:

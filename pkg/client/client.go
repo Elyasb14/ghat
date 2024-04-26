@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+  "os"
 )
 
 func ReadFromServer(conn net.Conn, messages chan string) {
@@ -12,7 +13,8 @@ func ReadFromServer(conn net.Conn, messages chan string) {
 	for {
 		n, err := conn.Read(buf)
 		if err != nil {
-			fmt.Println(err)
+      fmt.Println("can't read from server, crashing client")
+      os.Exit(1)
 		}
 
 		text := string(buf[0:n])
