@@ -26,7 +26,8 @@ func main() {
 		}
 
 	  tcpServer.Mut.Lock()	
-		tcpServer.Connections = append(tcpServer.Connections, conn)
+		//tcpServer.Connections = append(tcpServer.Connections, conn)
+    tcpServer.Connections[conn.RemoteAddr().String()] = conn
     tcpServer.Mut.Unlock()
 
 		log.Printf("client connected @ ip address %s", conn.RemoteAddr().String())

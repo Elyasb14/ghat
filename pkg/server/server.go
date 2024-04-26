@@ -11,7 +11,7 @@ type Connection net.Conn
 
 type TCPServer struct {
 	Listener    net.Listener
-	Connections []Connection
+  Connections map[string]Connection
   Mut sync.Mutex
 }
 
@@ -23,6 +23,7 @@ func NewTCPServer(port uint) (*TCPServer, error) {
 
 	return &TCPServer{
 		Listener: listener,
+    Connections: make(map[string]Connection, 0),
 	}, nil
 }
 
@@ -33,6 +34,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 		if err != nil {
 			conn.Close()
 			log.Printf("client @ ip addr %s disconnected", conn.RemoteAddr().String())
+			delete(server.Connections, conn.RemoteAddr().String())
 			return
 		}
 
