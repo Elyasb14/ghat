@@ -31,6 +31,7 @@ func main() {
         select {
         case msg := <- messages:
             fmt.Println(msg)
+            fmt.Print("> ")
         }
     }
 }
