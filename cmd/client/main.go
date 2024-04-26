@@ -27,11 +27,18 @@ func main() {
     go client.ReadFromUser(conn, reader, messages)
     go client.ReadFromServer(conn, messages)
 
-    for {
-        select {
-        case msg := <- messages:
-            fmt.Println(msg)
-            fmt.Print("> ")
-        }
+    // for {
+    //     select {
+    //     case msg := <- messages:
+    //         fmt.Println(msg)
+    //         fmt.Print("> ")
+    //     }
+    // }
+
+    // i am a little confused as to how this works
+    // how does it know the channel is still open
+    for msg := range messages {
+        fmt.Println(msg)
+        fmt.Print("> ")
     }
 }
