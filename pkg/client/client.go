@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-  "os"
+	"os"
 )
 
 func ReadFromServer(conn net.Conn, messages chan string) {
@@ -13,8 +13,8 @@ func ReadFromServer(conn net.Conn, messages chan string) {
 	for {
 		n, err := conn.Read(buf)
 		if err != nil {
-      fmt.Println("can't read from server, crashing client")
-      os.Exit(0)
+			fmt.Println("can't read from server, crashing client")
+			os.Exit(0)
 		}
 
 		text := string(buf[0:n])
@@ -25,12 +25,11 @@ func ReadFromServer(conn net.Conn, messages chan string) {
 func ReadFromUser(conn net.Conn, reader *bufio.Reader, messages chan string) {
 	// read from user input
 	for {
-    fmt.Print("> ")
+		fmt.Print("> ")
 		input, err := reader.ReadString('\n') // newline is delimeter to read until
 		if err != nil {
 			fmt.Println(err)
 		}
-		conn.Write([]byte(input[:len(input)-1]))
+		conn.Write([]byte(input[:len(input)-1])) // indexing is so you don't include a newline char
 	}
-
 }
