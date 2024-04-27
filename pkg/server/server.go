@@ -34,7 +34,9 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 		if err != nil {
 			conn.Close()
 			log.Printf("client @ ip addr %s disconnected", conn.RemoteAddr().String())
+      server.Mut.Lock()
 			delete(server.Connections, conn.RemoteAddr().String())
+      server.Mut.Unlock()
 			return
 		}
 
