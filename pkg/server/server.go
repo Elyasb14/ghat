@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"log"
 	"net"
-  "sync"
+	"sync"
 )
 
 type Connection net.Conn
 
 type TCPServer struct {
 	Listener    net.Listener
-  Connections map[string]Connection
-  Mut sync.Mutex
+	Connections map[string]Connection
+	Mut         sync.Mutex
 }
 
 func NewTCPServer(port uint) (*TCPServer, error) {
@@ -22,8 +22,8 @@ func NewTCPServer(port uint) (*TCPServer, error) {
 	}
 
 	return &TCPServer{
-		Listener: listener,
-    Connections: make(map[string]Connection, 0),
+		Listener:    listener,
+		Connections: make(map[string]Connection, 0),
 	}, nil
 }
 
@@ -34,9 +34,9 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 		if err != nil {
 			conn.Close()
 			log.Printf("client @ ip addr %s disconnected", conn.RemoteAddr().String())
-      server.Mut.Lock()
+			server.Mut.Lock()
 			delete(server.Connections, conn.RemoteAddr().String())
-      server.Mut.Unlock()
+			server.Mut.Unlock()
 			return
 		}
 
@@ -44,7 +44,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 		message := fmt.Sprintf("%s: %s", conn.LocalAddr().String(), text)
 		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
 
-    server.Mut.Lock()
+		server.Mut.Lock()
 		for _, client := range server.Connections {
 			if client == conn {
 				continue
@@ -61,6 +61,6 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 			}
 		}
 
-    server.Mut.Unlock()
+		server.Mut.Unlock()
 	}
 }
