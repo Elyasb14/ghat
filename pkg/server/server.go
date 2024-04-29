@@ -4,10 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
-<<<<<<< HEAD
-=======
 	"strings"
->>>>>>> cbffc4a (string package)
 	"sync"
 )
 
