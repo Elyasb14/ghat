@@ -56,12 +56,12 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 			}
 
 			_, err := client.Write([]byte(message))
+			server.Mut.Unlock()
 			if err != nil {
 				log.Println(err)
 				continue
 			}
 		}
 
-		server.Mut.Unlock()
 	}
 }
