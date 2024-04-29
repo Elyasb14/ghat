@@ -16,6 +16,7 @@ type TCPServer struct {
 }
 
 func colorText(text string) string {
+
 	return "\033[31m" + text + "\033[0m"
 }
 

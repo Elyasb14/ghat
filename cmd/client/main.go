@@ -37,6 +37,7 @@ func main() {
 
 	// i am a little confused as to how this works
 	// how does it know the channel is still open
+	fmt.Println("remote messages are in" + "\033[31m" + " red " + "\033[0m" + "your messages are in white")
 	for msg := range messages {
 		fmt.Println(msg)
 		fmt.Print("> ")
