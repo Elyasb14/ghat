@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net"
+<<<<<<< HEAD
+=======
+	"strings"
+>>>>>>> cbffc4a (string package)
 	"sync"
 )
 
@@ -41,7 +45,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 		}
 
 		text := string(buf[0:n])
-		message := fmt.Sprintf("%s: %s", conn.LocalAddr().String(), text)
+		message := strings.Join([]string{conn.LocalAddr().String(), text}, ": ")
 		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
 
 		server.Mut.Lock()
