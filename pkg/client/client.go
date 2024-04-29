@@ -27,11 +27,12 @@ func ReadFromUser(conn net.Conn, reader *bufio.Reader, messages chan string) {
 	for {
 		fmt.Print("> ")
 		// newline is delimeter to read until
-		input, err := reader.ReadString('\n') 
+		input, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Println(err)
 		}
 
 		// indexing is so you don't include a newline char
-		conn.Write([]byte(input[:len(input)-1])) 	}
+		conn.Write([]byte(input[:len(input)-1]))
+	}
 }

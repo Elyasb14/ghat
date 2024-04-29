@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strings"
 	"sync"
 )
 
@@ -14,6 +13,10 @@ type TCPServer struct {
 	Listener    net.Listener
 	Connections map[string]Connection
 	Mut         sync.Mutex
+}
+
+func colorText(text string) string {
+	return "\033[31m" + text + "\033[0m"
 }
 
 func NewTCPServer(port uint) (*TCPServer, error) {
@@ -41,8 +44,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 			return
 		}
 
-		text := string(buf[0:n])
-		message := strings.Join([]string{conn.LocalAddr().String(), text}, ": ")
+		text := colorText(string((buf[0:n])))
 		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
 
 		server.Mut.Lock()
@@ -55,7 +57,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 				continue
 			}
 
-			_, err := client.Write([]byte(message))
+			_, err := client.Write([]byte(text))
 			server.Mut.Unlock()
 			if err != nil {
 				log.Println(err)
