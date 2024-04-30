@@ -7,6 +7,10 @@ import (
 	"os"
 )
 
+func ColorString(text string) string {
+	return "\033[31m" + text + "\033[0m"
+}
+
 func ReadFromServer(conn net.Conn, messages chan string) {
 	buf := make([]byte, 64)
 
@@ -17,7 +21,7 @@ func ReadFromServer(conn net.Conn, messages chan string) {
 			os.Exit(0)
 		}
 
-		text := string(buf[0:n])
+		text := string((buf[0:n]))
 		messages <- text
 	}
 }

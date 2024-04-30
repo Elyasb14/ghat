@@ -15,11 +15,6 @@ type TCPServer struct {
 	Mut         sync.Mutex
 }
 
-func colorText(text string) string {
-
-	return "\033[31m" + text + "\033[0m"
-}
-
 func NewTCPServer(port uint) (*TCPServer, error) {
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
@@ -45,7 +40,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 			return
 		}
 
-		text := colorText(string((buf[0:n])))
+		text := string((buf[0:n]))
 		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
 
 		server.Mut.Lock()
