@@ -7,8 +7,14 @@ import (
 	"os"
 )
 
-func ColorString(text string) string {
-	return "\033[31m" + text + "\033[0m"
+func ColorString(text string, color string) string {
+	colors := map[string]string{
+		"red":   "\033[31m",
+		"green": "\033[32m",
+		"blue":  "\033[34m",
+	}
+
+	return colors[color] + text + "\033[0m"
 }
 
 func ReadFromServer(conn net.Conn, messages chan string) {
