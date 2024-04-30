@@ -25,10 +25,11 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	messages := make(chan string)
 
+	fmt.Println(client.ColorString("messages from remote clients will appear in the color this is printed in", color))
+
 	go client.ReadFromUser(conn, reader, messages)
 	go client.ReadFromServer(conn, messages)
 
-	fmt.Println(client.ColorString("messages from remote clients will appear in the color this is printed in", color))
 	for msg := range messages {
 		fmt.Println(client.ColorString(msg, color))
 		fmt.Print("> ")
