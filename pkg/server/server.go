@@ -13,10 +13,12 @@ type TCPServer struct {
 	Listener    net.Listener
 	Connections map[string]Connection
 	Mut         sync.Mutex
+	bufSize     uint
+	maxCons     uint
 	// Messages    chan string
 }
 
-func NewTCPServer(port uint) (*TCPServer, error) {
+func NewTCPServer(port uint, maxCons uint, bufSize uint) (*TCPServer, error) {
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		return nil, err
@@ -24,12 +26,15 @@ func NewTCPServer(port uint) (*TCPServer, error) {
 
 	return &TCPServer{
 		Listener:    listener,
-		Connections: make(map[string]Connection, 0),
+		Connections: make(map[string]Connection, maxCons),
+		bufSize:     bufSize,
+		maxCons:     maxCons,
 	}, nil
 }
 
 func HandleClient(conn net.Conn, server *TCPServer) {
-	buf := make([]byte, 64)
+	buf := make([]byte, server.bufSize)
+
 	for {
 		n, err := conn.Read(buf)
 		if err != nil {

@@ -8,12 +8,14 @@ import (
 )
 
 func main() {
-	var port uint
+	var port, bufSize, maxCons uint
 	flag.UintVar(&port, "port", 8080, "port to listen on")
+	flag.UintVar(&bufSize, "bufsize", 64, "maximum message buffer size")
+	flag.UintVar(&maxCons, "maxcons", 20, "maximum number of allowed connections to the server")
 	flag.Parse()
 	log.Printf("server listening on port %d\n", port)
 
-	tcpServer, err := server.NewTCPServer(port)
+	tcpServer, err := server.NewTCPServer(port, maxCons, bufSize)
 	if err != nil {
 		log.Fatal(err)
 	}
