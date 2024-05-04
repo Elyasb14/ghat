@@ -13,6 +13,7 @@ type TCPServer struct {
 	Listener    net.Listener
 	Connections map[string]Connection
 	Mut         sync.Mutex
+	// Messages    chan string
 }
 
 func NewTCPServer(port uint) (*TCPServer, error) {
@@ -43,22 +44,26 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 		text := string((buf[0:n]))
 		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
 
-		server.Mut.Lock()
-		for _, client := range server.Connections {
-			if client == conn {
-				continue
-			}
-
-			if text == "\n" || text == " " {
-				continue
-			}
-
-			_, err := client.Write([]byte(text))
-			if err != nil {
-				log.Println(err)
-				continue
-			}
-		}
-		server.Mut.Unlock()
+		go BroadCastMessage(server, conn, text)
 	}
+}
+
+func BroadCastMessage(server *TCPServer, conn net.Conn, text string) {
+	server.Mut.Lock()
+	for _, client := range server.Connections {
+		if client == conn {
+			continue
+		}
+
+		if text == "\n" || text == " " {
+			continue
+		}
+
+		_, err := client.Write([]byte(text))
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+	}
+	server.Mut.Unlock()
 }
