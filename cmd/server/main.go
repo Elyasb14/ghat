@@ -13,12 +13,14 @@ func main() {
 	flag.UintVar(&bufSize, "bufsize", 64, "maximum message buffer size")
 	flag.UintVar(&maxCons, "maxcons", 20, "maximum number of allowed connections to the server")
 	flag.Parse()
-	log.Printf("server listening on port %d\n", port)
 
 	tcpServer, err := server.NewTCPServer(port, maxCons, bufSize)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	log.Printf("server listening on port %d\n", port)
+
 	for {
 		conn, err := tcpServer.Listener.Accept()
 
