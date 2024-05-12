@@ -2,16 +2,30 @@ package db
 
 import (
 	"database/sql"
-	_ "github.com/tursodatabase/libsql-client-go/libsql"
 	"log"
+	"sync"
+
+	_ "github.com/tursodatabase/go-libsql"
 )
 
-var db *sql.DB
+type DataBase struct {
+	Db  *sql.DB
+	Mut sync.Mutex
+}
 
-func InitDB() *sql.DB {
-	db, err := sql.Open("libsql", "file:/tmp/db.go")
+func InitDB(fd string) *DataBase {
+	db, err := sql.Open("libsql", fd)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return db
+
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        msg TEXT NOT NULL,
+        sender TEXT NOT NULL
+  )`)
+
+	return &DataBase{
+		Db: db,
+	}
 }
