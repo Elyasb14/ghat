@@ -1,6 +1,6 @@
 GHAT
 
-this is a multi user chat app, cli based, written in go. 
+this is a multi-user terminal chat app. all traffic is over pure tcp, no encryption. beware!
 
 USAGE
 
@@ -10,7 +10,7 @@ to start a server, run:
 go run cmd/server/main.go --port 8080
 ```
 
-to run a client, run:
+to connect to a server, run the following:
 
 ```
 go run cmd/client/main.go --addr <remote addr>
