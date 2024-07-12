@@ -9,6 +9,11 @@ import (
 
 type Connection net.Conn
 
+type Packet struct {
+  sender net.Addr
+  data []byte
+}
+
 type TCPServer struct {
 	Listener    net.Listener
 	Connections map[string]Connection
@@ -37,6 +42,10 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 
 	for {
 		n, err := conn.Read(buf)
+    packet := Packet{
+      sender : conn.RemoteAddr(),
+      data : buf[0:n],
+    }
 		if err != nil {
 			conn.Close()
 			log.Printf("client @ ip addr %s disconnected", conn.RemoteAddr().String())
@@ -46,7 +55,7 @@ func HandleClient(conn net.Conn, server *TCPServer) {
 			return
 		}
 
-		text := string((buf[0:n]))
+		text := string(packet.data)
 		log.Printf("message: %s from ip addr %s", text, conn.RemoteAddr().String())
 
 		go BroadCastMessage(server, conn, text)
